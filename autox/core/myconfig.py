@@ -5,7 +5,7 @@
 import configparser
 import jsonpath
 import json
-import core.mylog as log
+import autox.core.mylog as log
 
 logging = log.track_log()
 config = configparser.RawConfigParser()

@@ -8,34 +8,32 @@ import time
 import os
 import random
 import string
-import constants as cs
-import core.myconfig as rc
-import core.myemail as email
-import core.myrequest as request
-import model.model as mm
-import model.report as mr
-import util.others as others
+from autox import constants as cs
+from autox.core import myemail as email, myrequest as request
+import autox.core.mydb as database
+from autox.model import model as mm
+import autox.model.report as mr
+import autox.util.others as others
 import re
 
-from core.myresponse import getRelyValues
+from autox.core.myresponse import getRelyValues
 import traceback
-import core.mylog as log
+import autox.core.mylog as log
 
 logging = log.track_log()
 
 summary_report = []
 single_start = datetime.datetime.now()
 single_end = datetime.datetime.now()
-content = None
-code = None
-message = None
 result = None
-delivery_name = others.get_filename(cs.DELIVERY_PATH)
 collect_data = {}
 pass_result = 0
 fail_result = 0
 skip_result = 0
 dict_list = []
+case_result = []
+case_names = []
+scenarios = []
 case_all_count = 0
 
 
@@ -47,27 +45,58 @@ class MyRegression:
     def __init__(self):
         pass
 
-    def execute_case(self, filename):
+    def prepare_data(self, host, user, password, db, sql):
+        # database.connect(host, user, password, db)
+        d_result = database.execute(host, user, password, db, sql)
+        # database.close()
+        return d_result
+
+    def execute_case(self, sql1, sql2):
         """
         :param filename: 用例文件名称
         :return: 测试结果的报告模板
 
         """
-        global summary_report, message, result, code, pass_result, fail_result, skip_result, case_all_count
-
+        global summary_report, result, pass_result, fail_result, skip_result, case_all_count
+        host = cs.DB_HOST
+        user = cs.DB_USER
+        password = cs.DB_PASSWORD
+        db = cs.DB_NAME
+        sql_case = sql1
+        sql_scenario = sql2
         report_title = cs.TEST_REPORT_TITLE
-        case_names = rc.get_casename(filename)[0]
-        case_lists = rc.get_casename(filename)[1]
+
+        """
+        准备连接数据库获得用例
+        执行完SQL，记得关闭数据库连接
+        """
+        con = database.connect(host, user, password, db)
+
+        case_scenario = database.execute(con, sql_scenario)
+        for sc in range(len(case_scenario)):
+            scenario_name = (case_scenario[sc]['scenario_name'])
+
+        case_lists = database.execute(con, sql_case)
+        for ci in range(len(case_lists)):
+            case_result.append(eval(case_lists[ci]['case_info']))
+        for cn in range(len(case_result)):
+            case_names.append(case_result[cn]['caseName'])
+
+        database.close(con)
+
+        # case_names = rc.get_casename(filename)[0]
+        # case_lists = rc.get_casename(filename)[1]
+
         all_result = len(case_names)
         case_all_count = all_result + case_all_count
         total_start = others.get_now()[0]
         project_name = "企业测试项目" + ''.join(random.sample(string.ascii_letters + string.digits, 3))
         delivery_time = str(others.get_future(60))
-        caseScenario = case_lists['scenarioName']
+
 
         try:
             for i in range(0, all_result):
-                case_list = case_lists['steps'][i]
+                case_list = case_result[i]
                 name = case_names[i]
                 method = case_list['caseMethod']
                 request_data = case_list['request']
@@ -109,7 +138,6 @@ class MyRegression:
                             api_url = data_json['caseUrl']
                             url = cs.BASEURL + api_url
                             _data = data_json['request']['body']
-
                 data_json = eval(str_data)
                 headers = data_json['request']['headers']
                 api_url = data_json['caseUrl']
@@ -192,7 +220,7 @@ class MyRegression:
                 result_log_message = "输出结果:%s\n" % actual_response
                 if len(url) > 120:
                     url = url[0:110]
-                summary_report = self.excReport.sum_result(caseScenario, url, method, name, run_time, test_status,
+                summary_report = self.excReport.sum_result(scenario_name, url, method, name, run_time, test_status,
                                                            request_log_message, result_log_message)
 
         except Exception as e:
@@ -208,9 +236,13 @@ class MyRegression:
 
         return report_model
 
-    def build_report(self, filename):
+    def build_report(self, scenario):
         try:
-            test_report = self.execute_case(filename)
+            scenario = '%' + scenario + '%'
+            sql1 = "select case_info from t_case where id in (select case_id from t_matching where scenario_id in " \
+                  "(select id from t_scenario where scenario_name like '%s'))" %scenario
+            sql2 = "select scenario_name from t_scenario where scenario_name like '%s'" %scenario
+            test_report = self.execute_case(sql1, sql2)
             return self.excReport.build_report(test_report.sum_report, test_report.name, test_report.all_test,
                                                test_report.pass_test, test_report.fail_test, test_report.skip_test,
                                                test_report.total_run_time)

@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 # 基础包：响应处理服务
 
-import core.mylog as log
+import autox.core.mylog as log
 
 logging = log.track_log()
 

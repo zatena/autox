@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/API-Test-Framework.iml" filepath="$PROJECT_DIR$/.idea/API-Test-Framework.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/API-Test-Framework.iml" filepath="$PROJECT_DIR$/.idea/API-Test-Framework.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ATP.iml" filepath="$PROJECT_DIR$/.idea/ATP.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/autox.iml" filepath="$PROJECT_DIR$/.idea/autox.iml" />
     </modules>
   </component>
 </project>

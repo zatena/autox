@@ -6,8 +6,8 @@ import smtplib
 from email.mime.text import MIMEText
 from email.header import Header
 from email.mime.multipart import MIMEMultipart
-import constants as cs
-import core.mylog as log
+from autox import constants as cs
+import autox.core.mylog as log
 
 logging = log.track_log()
 
@@ -21,7 +21,7 @@ def email(reportfile):
     message = MIMEMultipart('related')
     message['From'] = cs.MAIL_SENDER
     message['To'] = ','.join(cs.MAIL_RECEIVER)
-    message['Subject'] = Header('大平台业务接口自动化测试报告', 'utf-8')
+    message['Subject'] = Header('测试报告', 'utf-8')
     message.attach(att)
 
     try:

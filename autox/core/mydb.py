@@ -3,14 +3,12 @@
 # 基础包：数据库
 
 import pymysql.cursors
-import core.mylog as log
+import autox.core.mylog as log
 
 logging = log.track_log()
 
-con = None
 
-
-def connect_db(host, user, password, db, charset='utf8'):
+def connect(host, user, password, db, charset='utf8'):
     """
     连接MySQL
     :param host: 数据库主机
@@ -19,33 +17,34 @@ def connect_db(host, user, password, db, charset='utf8'):
     :param db: 库名
     :return: 连接
     """
-    global con
-    if con is None:
-        con = pymysql.connect(host=host, user=user, password=password, db=db, charset=charset,
-                             cursorclass=pymysql.cursors.DictCursor)
+
+    # if con is None:
+    con = pymysql.connect(host=host, user=user, password=password, db=db, charset=charset, cursorclass=pymysql.cursors.DictCursor)
+        # cursorclass=pymysql.cursors.DictCursor
     return con
 
 
-def execute_sql(sql):
+def execute(con, sql):
     """
     执行SQL
     :param sql: sql语句
     :return: 执行结果
     """
-    global con
     try:
         cursor = con.cursor()
-        result = cursor.execute(sql)
+        cursor.execute(sql)
+        result = cursor.fetchall()
         con.commit()
         return result
+
     except Exception as e:
-        logging.error("执行sql失败:%s" % e)
+        logging.error("执行sql失败:%s" % (e.__repr__()))
         con.rollback()
+    con.close()
 
 
-def close_db():
+def close(con):
     """关闭MySQL"""
-    global con
     con.close()
 
 

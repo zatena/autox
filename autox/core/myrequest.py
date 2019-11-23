@@ -4,7 +4,7 @@
 
 import requests
 import traceback
-import core.mylog as log
+import autox.core.mylog as log
 import os
 
 logging = log.track_log()

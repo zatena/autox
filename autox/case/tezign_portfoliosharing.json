@@ -1,0 +1,333 @@
+
+{
+       "scenarioName": "创意方分享列表",
+       "steps": [
+
+              {
+                     "caseName": "后台用户登录",
+                     "caseUrl": "/topUser/login",
+                     "caseMethod": "POST",
+                     "request": {
+                            "body": {
+                                   "email": "admin@tezign.com",
+                                   "password": "111111"
+                            },
+                            "headers": {
+                                   "Content-Type": "application/json",
+                                   "service-name": "top2"
+                            }
+                     },
+                     "assertions": {
+                            "status": 200,
+                            "body": {
+                                   "code": "0"
+                            }
+                     }
+              },
+              {
+                     "caseName": "获取案例分享列表",
+                     "caseUrl": "/sharing/group/list",
+                     "caseMethod": "POST",
+                     "request": {
+                            "body": {
+                                   "pageNum": 1,
+                                   "pageSize": 10,
+                                   "groupType": 1
+                            },
+                            "headers": {
+                                   "Content-Type": "application/json",
+                                   "service-name": "top2",
+                                   "X-Top-User-Id": "后台用户登录.1.id",
+                                   "X-Top-Token": "后台用户登录.1.token"
+                            }
+                     },
+                     "assertions": {
+                            "status": 200,
+                            "body": {
+                                   "code": "0"
+                            }
+                     }
+              },
+              {
+                     "caseName": "创建案例分享组",
+                     "caseUrl": "/sharing/group/saveGroup",
+                     "caseMethod": "POST",
+                     "request": {
+                            "body": {
+                                   "id": null,
+                                   "name": "测试案例分享组",
+                                   "description": "测试test1234",
+                                   "groupType": 1
+                            },
+                            "headers": {
+                                   "Content-Type": "application/json",
+                                   "service-name": "top2",
+                                   "X-Top-User-Id": "后台用户登录.1.id",
+                                   "X-Top-Token": "后台用户登录.1.token"
+                            }
+                     },
+                     "assertions": {
+                            "status": 200,
+                            "body": {
+                                   "code": "0"
+                            }
+                     }
+              },
+              {
+                     "caseName": "获取新建分享组编号",
+                     "caseUrl": "/sharing/group/list",
+                     "caseMethod": "POST",
+                     "request": {
+                            "body": {
+                                   "pageNum": 1,
+                                   "pageSize": 10,
+                                   "groupType": 1
+                            },
+                            "headers": {
+                                   "Content-Type": "application/json",
+                                   "service-name": "top2",
+                                   "X-Top-User-Id": "后台用户登录.1.id",
+                                   "X-Top-Token": "后台用户登录.1.token"
+                            }
+                     },
+                     "assertions": {
+                            "status": 200,
+                            "body": {
+                                   "code": "0"
+                            }
+                     }
+              },
+              {
+                     "caseName": "查看新建案例分享组",
+                     "caseUrl": "/sharing/group/getPortfolioSharingGroup/获取新建分享组编号.1.id",
+                     "caseMethod": "GET",
+                     "request": {
+                            "body": {
+                                   "pageNum": 1,
+                                   "pageSize": 10,
+                                   "groupType": 1
+                            },
+                            "headers": {
+                                   "Content-Type": "application/json",
+                                   "service-name": "top2",
+                                   "X-Top-User-Id": "后台用户登录.1.id",
+                                   "X-Top-Token": "后台用户登录.1.token"
+                            }
+                     },
+                     "assertions": {
+                            "status": 200,
+                            "body": {
+                                   "code": "0",
+                                   "assert":"查看新建案例分享组.1.portfolioCnt:0"
+                            }
+                     }
+              },
+              {
+                     "caseName": "查询案例",
+                     "caseUrl": "/search/portfolio/search",
+                     "caseMethod": "POST",
+                     "request": {
+                            "body": {
+                                   "pageNumber": 1,
+                                   "pageSize": 12,
+                                   "filter": [
+                                          [{
+                                                 "name": "origin",
+                                                 "value": 0
+                                          }]
+                                   ],
+                                   "mindVersion": 1
+                            },
+                            "headers": {
+                                   "Content-Type": "application/json",
+                                   "service-name": "top2",
+                                   "X-Top-User-Id": "后台用户登录.1.id",
+                                   "X-Top-Token": "后台用户登录.1.token"
+                            }
+                     },
+                     "assertions": {
+                            "status": 200,
+                            "body": {
+                                   "code": "0"
+                            }
+                     }
+              },
+              {
+                     "caseName": "获取案例所属分享组",
+                     "caseUrl": "/sharing/group/getSharingGroupList",
+                     "caseMethod": "POST",
+                     "request": {
+                            "body": {
+                                   "portfolioId": "查询案例.1.id"
+                            },
+                            "headers": {
+                                   "Content-Type": "application/json",
+                                   "service-name": "top2",
+                                   "X-Top-User-Id": "后台用户登录.1.id",
+                                   "X-Top-Token": "后台用户登录.1.token"
+                            }
+                     },
+                     "assertions": {
+                            "status": 200,
+                            "body": {
+                                   "code": "0"
+                            }
+                     }
+              },
+              {
+                     "caseName": "查询待添加的案例分享组",
+                     "caseUrl": "/sharing/group/list",
+                     "caseMethod": "POST",
+                     "request": {
+                            "body": {
+                                   "portfolioId": "查询案例.1.id",
+                                   "groupName": "测试案例分享组"
+                            },
+                            "headers": {
+                                   "Content-Type": "application/json",
+                                   "service-name": "top2",
+                                   "X-Top-User-Id": "后台用户登录.1.id",
+                                   "X-Top-Token": "后台用户登录.1.token"
+                            }
+                     },
+                     "assertions": {
+                            "status": 200,
+                            "body": {
+                                   "code": "0"
+                            }
+                     }
+              },
+              {
+                     "caseName": "添加案例至分享组",
+                     "caseUrl": "/sharing/group/addToSharingGroup",
+                     "caseMethod": "POST",
+                     "request": {
+                            "body": {
+                                   "id": "获取新建分享组编号.1.id",
+                                   "portfolioId": "查询案例.1.id",
+                                   "groupType": 1
+                            },
+                            "headers": {
+                                   "Content-Type": "application/json",
+                                   "service-name": "top2",
+                                   "X-Top-User-Id": "后台用户登录.1.id",
+                                   "X-Top-Token": "后台用户登录.1.token"
+                            }
+                     },
+                     "assertions": {
+                            "status": 200,
+                            "body": {
+                                   "code": "0"
+                            }
+                     }
+              },
+              {
+                     "caseName": "添加另一个案例至分享组",
+                     "caseUrl": "/sharing/group/addToSharingGroup",
+                     "caseMethod": "POST",
+                     "request": {
+                            "body": {
+                                   "id": "获取新建分享组编号.1.id",
+                                   "portfolioId": "查询案例.2.id",
+                                   "groupType": 1
+                            },
+                            "headers": {
+                                   "Content-Type": "application/json",
+                                   "service-name": "top2",
+                                   "X-Top-User-Id": "后台用户登录.1.id",
+                                   "X-Top-Token": "后台用户登录.1.token"
+                            }
+                     },
+                     "assertions": {
+                            "status": 200,
+                            "body": {
+                                   "code": "0"
+                            }
+                     }
+              },
+              {
+                     "caseName": "添加第三个个案例至分享组",
+                     "caseUrl": "/sharing/group/addToSharingGroup",
+                     "caseMethod": "POST",
+                     "request": {
+                            "body": {
+                                   "id": "获取新建分享组编号.1.id",
+                                   "portfolioId": "查询案例.3.id",
+                                   "groupType": 1
+                            },
+                            "headers": {
+                                   "Content-Type": "application/json",
+                                   "service-name": "top2",
+                                   "X-Top-User-Id": "后台用户登录.1.id",
+                                   "X-Top-Token": "后台用户登录.1.token"
+                            }
+                     },
+                     "assertions": {
+                            "status": 200,
+                            "body": {
+                                   "code": "0"
+                            }
+                     }
+              },
+              {
+                     "caseName": "查看已添加案例的分享组",
+                     "caseUrl": "/sharing/group/getPortfolioSharingGroup/获取新建分享组编号.1.id",
+                     "caseMethod": "GET",
+                     "request": {
+                            "body": {
+                                   "pageNum": 1,
+                                   "pageSize": 10,
+                                   "groupType": 1
+                            },
+                            "headers": {
+                                   "Content-Type": "application/json",
+                                   "service-name": "top2",
+                                   "X-Top-User-Id": "后台用户登录.1.id",
+                                   "X-Top-Token": "后台用户登录.1.token"
+                            }
+                     },
+                     "assertions": {
+                            "status": 200,
+                            "body": {
+                                   "code": "0",
+                                   "assert":"查看新建案例分享组.1.portfolioCnt:3"
+                            }
+                     }
+              },
+              {
+                     "caseName": "获取新建分享组编号",
+                     "caseUrl": "/sharing/group/list",
+                     "caseMethod": "POST",
+                     "request": {
+                            "body": {
+                                   "pageNum": 1,
+                                   "pageSize": 10,
+                                   "groupType": 1
+                            },
+                            "headers": {
+                                   "Content-Type": "application/json",
+                                   "service-name": "top2",
+                                   "X-Top-User-Id": "后台用户登录.1.id",
+                                   "X-Top-Token": "后台用户登录.1.token"
+                            }
+                     },
+                     "assertions": {
+                            "status": 200,
+                            "body": {
+                                   "code": "0"
+                            }
+                     }
+              },
+
+       ]
+}
+
+
+
+
+
+
+
+
+
+

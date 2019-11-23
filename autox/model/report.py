@@ -8,8 +8,10 @@ import json
 import shutil
 import time
 import traceback
-import core.mylog as log
-from model.htmlparser import MyHTMLParser
+import autox.core.mylog as log
+from autox.model.htmlparser import MyHTMLParser
+from shutil import copyfile
+import autox
 
 
 logging = log.track_log()
@@ -104,12 +106,12 @@ class Report:
             logging.error("请求失败%s" % e)
             traceback.print_exc(file=open(os.getcwd()+'/log/error.log', 'a+'))
 
-
     def write_report(self, reportResult, testName):
         reportHtmlFileName = testName + ".html"
         reportDirPath = os.path.dirname(os.path.realpath("report")) + "/report/"
         # template = open(os.path.abspath(os.path.dirname(os.path.dirname(__file__))) + "/model/template", "r", encoding='UTF-8')
-        template = open(os.getcwd() + "/model/template", "r", encoding='UTF-8')
+        template = open(os.path.dirname(autox.__file__) + "/model/template", "r", encoding='UTF-8')
+        # template = open(os.path.split(os.path.realpath(__file__))[0] + "/model/template", "r", encoding='UTF-8')
         reportHtml = open(reportHtmlFileName, "w", encoding='UTF-8')
         for s in template:
             reportHtml.write(s.replace("${resultData}", json.dumps(reportResult)))

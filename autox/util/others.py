@@ -5,7 +5,7 @@
 from __future__ import division
 import datetime
 import os
-import core.mylog as log
+import autox.core.mylog as log
 
 logging = log.track_log()
 testdata = None

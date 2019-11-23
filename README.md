@@ -11,7 +11,7 @@
 $ pip3 install -r requirements.txt
 
 # 当前服务对象
-特赞大平台业务
+供给平台业务
 
 # git 构建地址 <br>
 [仓库地址](git clone git@git.tezign.com:Tester/API-Test-Framework.git "git clone git@git.tezign.com:Tester/API-Test-Framework.git")
@@ -48,7 +48,7 @@ python3 run.py <br>
 ------
 
 #### 1. run.py
-执行入口：执行所有以tezign**开始的json文件
+执行入口
 
 #### 2. util/common.py
 通用方法：执行用例，数据处理，解析和生成测试报告的方法
