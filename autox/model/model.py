@@ -17,6 +17,11 @@ class ReportModel:
     total_run_time = ''
 
     def __init__(self, sum_report, name, all_test, pass_test, fail_test, skip_test, total_run_time):
+        self.sum_report = []
+        self.all_test = 0
+        self.pass_test = 0
+        self.fail_test = 0
+        self.skip_test = 0
         self.sum_report = sum_report
         self.name = name
         self.all_test = all_test

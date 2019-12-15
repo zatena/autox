@@ -3,10 +3,11 @@
 # 执行包：run regression cases begin with "tezign*.json"
 
 import os
+
+from autox.model.report import Report
+
 import autox.core.myemail as email
 import autox.util.common as common
-
-report = None
 
 if os.path.exists(os.getcwd()+'/log'):
 
@@ -19,8 +20,13 @@ if os.path.exists(os.getcwd()+'/log'):
 else:
     os.mkdir(os.getcwd()+'/log')
 
-if os.path.exists(os.getcwd()+'/report'):
-    pass
+report_path = os.getcwd()+'/report'
+
+if os.path.exists(report_path):
+    if os.path.isfile(report_path + '/测试报告.html'):
+        os.remove(report_path + '/测试报告.html')
+    else:
+        pass
 else:
     os.mkdir(os.getcwd()+'/report')
 
@@ -32,11 +38,12 @@ else:
 regTest = common.MyRegression()
 
 
-def run(scenario_name):
-    global report
-    report = regTest.build_report(scenario_name)
+def run(scenario_list):
+    excReport = Report()
+    report = regTest.build_report(scenario_list,excReport)
     return report
     # email.email(report)
+
 
 
 

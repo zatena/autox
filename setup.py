@@ -7,7 +7,7 @@ with open(fname) as f:
 
 setup(
     name='autox',
-    version='0.0.4',
+    version='0.2.0',
     url='http://git.tezign.com/Tester/API-Test-Framework.git',
     packages=find_packages(exclude=['autox.case']),
     author='echoz',

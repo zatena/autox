@@ -55,7 +55,10 @@ class Report:
 
     testResultList = []
 
-    def sum_result(self,scenario, serviceName, methodName, description, spendTime, status, requestlog, resulttlog):
+    def __init__(self):
+        self.testResultList = []
+
+    def sum_result(self, scenario, serviceName, methodName, description, spendTime, status, requestlog, resulttlog):
         request_log = []
         result_log = []
         testResultDict = {}
