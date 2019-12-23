@@ -79,6 +79,7 @@ class Report:
         return self.testResultList
 
     def build_report(self, testResult, testName,testAll,testPass, testFail, testSkip, totalTime):
+
         try:
             reportResult = {}
             reportResult["testPass"] = testPass

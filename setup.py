@@ -7,14 +7,14 @@ with open(fname) as f:
 
 setup(
     name='autox',
-    version='0.2.0',
-    url='http://git.tezign.com/Tester/API-Test-Framework.git',
+    version='0.2.1',
+    url='https://github.com/zatena/autox.git',
     packages=find_packages(exclude=['autox.case']),
     author='echoz',
-    keywords='automatic test python',
+    keywords='automatic api test python',
     author_email='zatena@163.com',
     description='api test',
-    long_description='An automatic test platform for api',
+    long_description='an automatic test platform',
     install_requires=install_requires,
     include_package_data=True,
 
