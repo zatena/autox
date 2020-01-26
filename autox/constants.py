@@ -53,7 +53,4 @@ SUBJECT = '测试报告'
 DB_HOST = '127.0.0.1'
 DB_USER = 'root'
 DB_PASSWORD = '123456'
-DB_NAME = 'demo'
-DB_SQL1 = "select case_info from t_case where id in (select case_id from t_matching where scenario_id in " \
-          "(select id from t_scenario where scenario_name like '%招聘管理%'))"
-DB_SQL2 = "select scenario_name from t_scenario where scenario_name like '%招聘管理%'"
+DB_NAME = 'autox'

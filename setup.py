@@ -7,7 +7,7 @@ with open(fname) as f:
 
 setup(
     name='autox',
-    version='0.2.1',
+    version='0.2.3',
     url='https://github.com/zatena/autox.git',
     packages=find_packages(exclude=['autox.case']),
     author='echoz',

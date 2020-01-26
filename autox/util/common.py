@@ -9,10 +9,10 @@ import os
 import random
 import string
 from autox import constants as cs
+from autox import sql
 from autox.core import myemail as email, myrequest as request
 import autox.core.mydb as database
 from autox.model import model as mm
-import autox.model.report as mr
 import autox.util.others as others
 import re
 
@@ -26,9 +26,9 @@ summary_report = []
 single_start = datetime.datetime.now()
 single_end = datetime.datetime.now()
 result = None
-pass_result = 0
-fail_result = 0
-skip_result = 0
+# pass_result = 0
+# fail_result = 0
+# skip_result = 0
 dict_list = []
 case_result = []
 case_names = []
@@ -37,7 +37,6 @@ collect_data = {}
 
 
 class MyRegression:
-
 
     getRelyValues = getRelyValues()
 
@@ -56,14 +55,15 @@ class MyRegression:
 
         """
         case_all_count = 0
-        global result, pass_result, fail_result, skip_result
+        pass_result = 0
+        fail_result = 0
+        skip_result = 0
+        global result
         host = cs.DB_HOST
         user = cs.DB_USER
         password = cs.DB_PASSWORD
         db = cs.DB_NAME
         report_title = cs.TEST_REPORT_TITLE
-
-        # excReport = mr.Report()
 
         """
         准备连接数据库获得用例
@@ -75,14 +75,12 @@ class MyRegression:
             case_names.clear()
 
             scenario = '%' + scenario + '%'
-            sql_case = "select case_info from t_case where id in (select case_id from t_matching where scenario_id in " \
-                   "(select id from t_scenario where scenario_name like '%s'))" %scenario
-            sql_scenario = "select scenario_name from t_scenario where scenario_name like '%s'" %scenario
+            sql_case = sql.getCaseInfo % scenario
+            sql_scenario = sql.getSetName % scenario
             con = database.connect(host, user, password, db)
-
             case_scenario = database.execute(con, sql_scenario)
             for sc in range(len(case_scenario)):
-                scenario_name = (case_scenario[sc]['scenario_name'])
+                scenario_name = (case_scenario[sc]['set_name'])
 
             case_lists = database.execute(con, sql_case)
             for ci in range(len(case_lists)):
